@@ -1,10 +1,10 @@
-import GenerateInvoiceUsecase from "./generate-invoice.usecase";
+import GenerateInvoiceUseCase from "./generate-invoice.usecase";
 import InvoiceRepository from "../../repository/invoice-repository";
 import Invoice from "../../domain/invoice";
 import InvoiceItem from "../../domain/invoice-item";
 import Address from "../../../@shared/domain/value-object/address";
 
-describe("GenerateInvoiceUsecase unit tests", () => {
+describe("GenerateInvoiceUseCase unit tests", () => {
   const invoiceRepository = {
     create: jest.fn(),
     update: jest.fn(),
@@ -12,7 +12,7 @@ describe("GenerateInvoiceUsecase unit tests", () => {
     findAll: jest.fn(),
   } as unknown as InvoiceRepository;
 
-  const usecase = new GenerateInvoiceUsecase(invoiceRepository);
+  const usecase = new GenerateInvoiceUseCase(invoiceRepository);
 
   beforeEach(() => {
     jest.clearAllMocks();

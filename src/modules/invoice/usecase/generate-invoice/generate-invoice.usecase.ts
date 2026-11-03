@@ -31,7 +31,7 @@ export interface GenerateInvoiceOutputDto {
   updatedAt: Date;
 }
 
-export default class GenerateInvoiceUsecase {
+export default class GenerateInvoiceUseCase {
   constructor(private invoiceRepository: InvoiceRepository) {}
 
   async execute(input: GenerateInvoiceInputDto): Promise<GenerateInvoiceOutputDto> {
