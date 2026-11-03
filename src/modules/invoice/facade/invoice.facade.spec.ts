@@ -2,10 +2,10 @@ import InvoiceFacade from "./invoice.facade";
 import GenerateInvoiceUsecase from "../usecase/generate-invoice/generate-invoice.usecase";
 import FindInvoiceUsecase from "../usecase/find-invoice/find-invoice.usecase";
 import InvoiceRepository from "../repository/invoice-repository";
-import Address from "../../@shared/domain/value-object/address";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Invoice from "../domain/invoice";
 import InvoiceItem from "../domain/invoice-item";
+import Address from "../../@shared/domain/value-object/address";
 
 describe("InvoiceFacade unit tests", () => {
   const invoiceRepository = {
@@ -27,17 +27,15 @@ describe("InvoiceFacade unit tests", () => {
     const input = {
       name: "Invoice 1",
       document: "Document 1",
-      address: {
-        street: "Street 1",
-        number: "1",
-        complement: "Complement 1",
-        city: "City 1",
-        state: "State 1",
-        zipCode: "Zipcode 1",
-      },
+      street: "Street 1",
+      number: "1",
+      complement: "Complement 1",
+      city: "City 1",
+      state: "State 1",
+      zipCode: "Zipcode 1",
       items: [
-        { name: "Item 1", price: 100 },
-        { name: "Item 2", price: 200 },
+        { id: "1", name: "Item 1", price: 100 },
+        { id: "2", name: "Item 2", price: 200 },
       ],
     };
 
@@ -46,14 +44,20 @@ describe("InvoiceFacade unit tests", () => {
     expect(output.id).toBeDefined();
     expect(output.name).toBe("Invoice 1");
     expect(output.document).toBe("Document 1");
-    expect(output.address).toBeInstanceOf(Address);
-    expect(output.address.street).toBe("Street 1");
+    expect(output.street).toBe("Street 1");
+    expect(output.number).toBe("1");
+    expect(output.complement).toBe("Complement 1");
+    expect(output.city).toBe("City 1");
+    expect(output.state).toBe("State 1");
+    expect(output.zipCode).toBe("Zipcode 1");
     expect(output.items).toHaveLength(2);
-    expect(output.items[0]).toBeInstanceOf(InvoiceItem);
+    expect(output.items[0].id).toBe("1");
     expect(output.items[0].name).toBe("Item 1");
     expect(output.items[0].price).toBe(100);
+    expect(output.items[1].id).toBe("2");
     expect(output.items[1].name).toBe("Item 2");
     expect(output.items[1].price).toBe(200);
+    expect(output.total).toBe(300);
     expect(invoiceRepository.create).toHaveBeenCalledTimes(1);
   });
 
@@ -76,15 +80,21 @@ describe("InvoiceFacade unit tests", () => {
     expect(output.id).toBe("1");
     expect(output.name).toBe("Invoice 1");
     expect(output.document).toBe("Document 1");
-    expect(output.address).toBeInstanceOf(Address);
     expect(output.address.street).toBe("Street 1");
+    expect(output.address.number).toBe("1");
+    expect(output.address.complement).toBe("Complement 1");
+    expect(output.address.city).toBe("City 1");
+    expect(output.address.state).toBe("State 1");
+    expect(output.address.zipCode).toBe("Zipcode 1");
     expect(output.items).toHaveLength(2);
-    expect(output.items[0].id.id).toBe("1");
+    expect(output.items[0].id).toBe("1");
     expect(output.items[0].name).toBe("Item 1");
     expect(output.items[0].price).toBe(100);
-    expect(output.items[1].id.id).toBe("2");
+    expect(output.items[1].id).toBe("2");
     expect(output.items[1].name).toBe("Item 2");
     expect(output.items[1].price).toBe(200);
+    expect(output.total).toBe(300);
+    expect(output.createdAt).toBe(invoice.createdAt);
     expect(invoiceRepository.find).toHaveBeenCalledTimes(1);
     expect(invoiceRepository.find).toHaveBeenCalledWith("1");
   });

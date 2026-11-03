@@ -1,11 +1,11 @@
-import FindInvoiceUseCase from "./find-invoice.usecase";
+import FindInvoiceUsecase from "./find-invoice.usecase";
 import InvoiceRepository from "../../repository/invoice-repository";
 import Invoice from "../../domain/invoice";
 import InvoiceItem from "../../domain/invoice-item";
 import Address from "../../../@shared/domain/value-object/address";
 import Id from "../../../@shared/domain/value-object/id.value-object";
 
-describe("FindInvoiceUseCase unit tests", () => {
+describe("FindInvoiceUsecase unit tests", () => {
   const invoiceRepository = {
     create: jest.fn(),
     update: jest.fn(),
@@ -13,7 +13,7 @@ describe("FindInvoiceUseCase unit tests", () => {
     findAll: jest.fn(),
   } as unknown as InvoiceRepository;
 
-  const usecase = new FindInvoiceUseCase(invoiceRepository);
+  const usecase = new FindInvoiceUsecase(invoiceRepository);
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -38,7 +38,6 @@ describe("FindInvoiceUseCase unit tests", () => {
     expect(output.id).toBe("1");
     expect(output.name).toBe("Invoice 1");
     expect(output.document).toBe("Document 1");
-    expect(output.address).toBeInstanceOf(Address);
     expect(output.address.street).toBe("Street 1");
     expect(output.address.number).toBe("1");
     expect(output.address.complement).toBe("Complement 1");
@@ -46,15 +45,14 @@ describe("FindInvoiceUseCase unit tests", () => {
     expect(output.address.state).toBe("State 1");
     expect(output.address.zipCode).toBe("Zipcode 1");
     expect(output.items).toHaveLength(2);
-    expect(output.items[0]).toBeInstanceOf(InvoiceItem);
-    expect(output.items[0].id.id).toBe("1");
+    expect(output.items[0].id).toBe("1");
     expect(output.items[0].name).toBe("Item 1");
     expect(output.items[0].price).toBe(100);
-    expect(output.items[1].id.id).toBe("2");
+    expect(output.items[1].id).toBe("2");
     expect(output.items[1].name).toBe("Item 2");
     expect(output.items[1].price).toBe(200);
+    expect(output.total).toBe(300);
     expect(output.createdAt).toBe(invoice.createdAt);
-    expect(output.updatedAt).toBe(invoice.updatedAt);
   });
 
   it("should call repository.find with the correct id", async () => {
